@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SimplestTask</string>
+    <string name="add_item_label">Add Item</string>
+    <string name="new_item_hint_label">Enter a new item</string>
+    <string name="guide_edit_item_label">Edit item below:</string>
+    <string name="save_label">Save</string>
+</resources>
