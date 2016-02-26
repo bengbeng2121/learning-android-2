@@ -2,6 +2,7 @@
 **Simplest Task Manager** is an android app that allows building a todo list and basic todo items management functionality including adding new items, editing and deleting an existing item.
 
 Submitted by: **Binh Le**
+
 Time spent: **15** hours spent in total
 
 ## User Stories
