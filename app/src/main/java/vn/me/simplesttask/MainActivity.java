@@ -1,9 +1,11 @@
 package vn.me.simplesttask;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
+    private EditText etNewItem;
     private int editingPos = -1;
 
     @Override
@@ -30,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         readItems();
         lvItems = (ListView) findViewById(R.id.lvItems);
+        etNewItem = (EditText) findViewById(R.id.etNewItem);
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
+        lvItems.requestFocus();
     }
 
     private void setupListViewListener() {
@@ -61,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddItem(View view) {
-        EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
         if (!itemText.isEmpty()) {
             itemsAdapter.add(itemText);
             etNewItem.setText("");
             writeItems();
+            hideSoftKeyboard(etNewItem);
         } else {
             Toast.makeText(this, "New item is empty", Toast.LENGTH_SHORT).show();
         }
@@ -98,12 +103,17 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == AppConst.REQUEST_CODE && resultCode == RESULT_OK) {
             if (editingPos != -1) {
                 String newContent = data.getStringExtra(AppConst.ITEM);
-                items.add(editingPos, newContent);
+                items.set(editingPos, newContent);
                 itemsAdapter.notifyDataSetChanged();
                 editingPos = -1;
                 writeItems();
                 Toast.makeText(this, "Edit successful", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void hideSoftKeyboard(View view) {
+        InputMethodManager imm =(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
